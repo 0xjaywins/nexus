@@ -75,7 +75,7 @@ export function NotificationsPage() {
         {/* Header with back button */}
         <div className="flex items-center mb-5">
           <BackButton />
-          <h1 className="text-xl font-orbitron ml-40 neon-cyan">
+          <h1 className="text-xl font-orbitron ml-48 neon-cyan">
             Notifications
           </h1>
         </div>
