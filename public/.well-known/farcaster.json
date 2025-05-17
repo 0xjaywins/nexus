@@ -1,0 +1,18 @@
+{
+  "accountAssociation": {
+    "header": "eyJmaWQiOjI2MjY2MiwidHlwZSI6ImN1c3RvZHkiLCJrZXkiOiIweDAxOGI1NDc3Y2YxYWJkMWFhODBjMTViNzAyODRCNmM2OTJGNzVERDAifQ",
+    "payload": "eyJkb21haW4iOiJuZXh1cy10ZW4tc2lnbWEudmVyY2VsLmFwcCJ9",
+    "signature": "MHg3MmEyY2M4MTQ3NmQyYzY2OGFhNzc0YjhkN2E0OTM2NzlhZDFhNDc3MzUxZDg4Y2I1ZWY2OGY2ODYxNzNiNzM5MjMwYWZjYjBkOTVjYmRjZmViZDEyZWFiZDEyMzhiY2Q4ZGVmNDNiNzMyNWVkNWY1MDlhMzhlZWMxMTVmYThmNjFi"
+  },
+  "frame": {
+    "version": "1",
+    "name": "Example Frame",
+    "iconUrl": "https://nexus-ten-sigma.vercel.app/logo.png",
+    "homeUrl": "https://nexus-ten-sigma.vercel.app",
+    "imageUrl": "https://nexus-ten-sigma.vercel.app/logo.png",
+    "buttonTitle": "Check this out",
+    "splashImageUrl": "https://nexus-ten-sigma.vercel.app/splash.png",
+    "splashBackgroundColor": "rgba(0, 212, 255, 0.05)",
+    "webhookUrl": "https://nexus-ten-sigma.vercel.app/api/webhook"
+  }
+}

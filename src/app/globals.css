@@ -1,26 +1,162 @@
-@import "tailwindcss";
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+ :root {
+    --void: 220 70% 95%;
+    --neon-cyan: 183 100% 40%;
+    --neon-magenta: 300 100% 45%;
+    --neon-green: 135 100% 45%;
+    --neon-red: 350 100% 50%;
+    --background: 0 0% 100%;
+    --foreground: 0 0% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 3.9%;
+    --primary: 0 0% 9%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 0 0% 96.1%;
+    --secondary-foreground: 0 0% 9%;
+    --muted: 0 0% 96.1%;
+    --muted-foreground: 0 0% 45.1%;
+    --accent: 0 0% 96.1%;
+    --accent-foreground: 0 0% 9%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 89.8%;
+    --input: 0 0% 89.8%;
+    --ring: 0 0% 3.9%;
+    --radius: 0.5rem;
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+    .dark{
+    --void: 250 50% 4%;
+    --neon-cyan: 183 100% 50%;
+    --neon-magenta: 300 100% 50%;
+    --neon-green: 135 100% 50%;
+    --neon-red: 350 100% 50%;
+    }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+ }
+
+@layer components {
+  .neon-cyan {
+    text-shadow: 0 0 5px hsl(var(--neon-cyan)), 0 0 10px hsl(var(--neon-cyan) / 0.8);
+    color: hsl(var(--neon-cyan));
   }
-}
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  .neon-magenta {
+    text-shadow: 0 0 5px hsl(var(--neon-magenta)), 0 0 10px hsl(var(--neon-magenta) / 0.8);
+    color: hsl(var(--neon-magenta));
+  }
+
+  .neon-border-cyan {
+    box-shadow: 0 0 5px hsl(var(--neon-cyan)), 0 0 10px hsl(var(--neon-cyan) / 0.5);
+    border-color: hsl(var(--neon-cyan));
+  }
+
+  .neon-border-magenta {
+    box-shadow: 0 0 5px hsl(var(--neon-magenta)), 0 0 10px hsl(var(--neon-magenta) / 0.5);
+    border-color: hsl(var(--neon-magenta));
+  }
+
+  .glassmorphic {
+    background: hsl(var(--void) / 0.7);
+    backdrop-filter: blur(15px);
+    border: 1px solid hsl(var(--foreground) / 0.1);
+  }
+
+  .holographic {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .holographic::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+      45deg,
+      hsl(var(--neon-cyan) / 0) 0%,
+      hsl(var(--neon-cyan) / 0.1) 25%,
+      hsl(var(--neon-magenta) / 0.1) 50%,
+      hsl(var(--neon-cyan) / 0.1) 75%,
+      hsl(var(--neon-cyan) / 0) 100%
+    );
+    animation: holographic-shimmer 6s linear infinite;
+    pointer-events: none;
+  }
+
+  @keyframes holographic-shimmer {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+  .glitch-hover {
+    transition: all 0.2s ease;
+  }
+
+  .glitch-hover:hover {
+    animation: glitch 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  }
+
+  @keyframes glitch {
+    0% {
+      transform: translate(0);
+    }
+    20% {
+      transform: translate(-2px, 2px);
+    }
+    40% {
+      transform: translate(-2px, -2px);
+    }
+    60% {
+      transform: translate(2px, 2px);
+    }
+    80% {
+      transform: translate(2px, -2px);
+    }
+    100% {
+      transform: translate(0);
+    }
+  }
+
+  .neon-pulse {
+    animation: neon-pulse 2s infinite;
+  }
+
+  @keyframes neon-pulse {
+    0% {
+      opacity: 1;
+      box-shadow: 0 0 5px hsl(var(--neon-cyan)), 0 0 10px hsl(var(--neon-cyan));
+    }
+    50% {
+      opacity: 0.7;
+      box-shadow: 0 0 10px hsl(var(--neon-cyan)), 0 0 20px hsl(var(--neon-cyan));
+    }
+    100% {
+      opacity: 1;
+      box-shadow: 0 0 5px hsl(var(--neon-cyan)), 0 0 10px hsl(var(--neon-cyan));
+    }
+  }
+
+  @keyframes marquee {
+    0% {
+      transform: translateX(100%);
+    }
+    100% {
+      transform: translateX(-100%);
+    }
+  }
+
+  .animate-marquee {
+    animation: marquee 15s linear infinite;
+  }
 }
