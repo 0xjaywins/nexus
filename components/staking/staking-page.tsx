@@ -91,7 +91,7 @@ export function StakingPage() {
             // When in protocol list, back button should use the global back button
             <BackButton />
           )}
-          <h1 className="text-xl font-orbitron ml-4 neon-magenta">Staking</h1>
+          <h1 className="text-xl font-orbitron ml-48 neon-magenta">Staking</h1>
         </div>
 
         {!selectedProtocol ? (

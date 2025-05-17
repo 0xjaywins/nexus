@@ -113,7 +113,7 @@ export function SwapPage() {
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center">
             <BackButton />
-            <h1 className="text-xl font-orbitron ml-4 neon-cyan">Swap</h1>
+            <h1 className="text-xl font-orbitron ml-52 neon-cyan">Swap</h1>
           </div>
         </div>
 

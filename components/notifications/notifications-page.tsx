@@ -73,9 +73,9 @@ export function NotificationsPage() {
 
       <GlassmorphicCard variant="gradient" className="w-full max-w-md mx-auto">
         {/* Header with back button */}
-        <div className="flex items-center mb-6">
+        <div className="flex items-center mb-5">
           <BackButton />
-          <h1 className="text-xl font-orbitron ml-4 neon-cyan">
+          <h1 className="text-xl font-orbitron ml-40 neon-cyan">
             Notifications
           </h1>
         </div>
