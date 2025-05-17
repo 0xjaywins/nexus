@@ -110,10 +110,7 @@ export function NotificationsPage() {
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <Bell className="h-4 w-4 text-text-secondary" />
-                <Label
-                  htmlFor="warpcast"
-                  className="text-sm text-sm text-text-primary"
-                >
+                <Label htmlFor="warpcast" className="text-sm text-text-primary">
                   Warpcast Posts/DMs
                 </Label>
               </div>

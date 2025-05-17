@@ -59,8 +59,13 @@ export function NotificationItem({ notification }: NotificationItemProps) {
                 size="sm"
                 className="text-xs py-1"
               >
-                {notification.actionType === "swap" ? "Swap Now" : "Stake Now"}
-                <ArrowUpRight className="ml-1 h-3 w-3" />
+                {" "}
+                <span className="flex justify-center items-center">
+                  {notification.actionType === "swap"
+                    ? "Swap Now"
+                    : "Stake Now"}
+                  <ArrowUpRight className="ml-1 h-3 w-3" />
+                </span>
               </CyberpunkButton>
             </Link>
           </div>

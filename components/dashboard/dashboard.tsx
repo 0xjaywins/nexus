@@ -52,7 +52,7 @@ export function Dashboard() {
               Welcome to NEXUS
             </h1>
             <p className="text-text-secondary text-center">
-              Stake, swap, and get notifications for the Monad testnet
+              Swap, Stake and Stay updated effortlessly on Monad Testnet
             </p>
             <div className="flex justify-center mt-6">
               <CyberpunkButton
@@ -60,7 +60,9 @@ export function Dashboard() {
                 size="lg"
                 onClick={handleConnect}
               >
-                Connect Wallet <Zap className="ml-2 h-4 w-4" />
+                <span className="flex justify-center items-center">
+                  Connect Wallet <Zap className="ml-2 h-4 w-4" />
+                </span>
               </CyberpunkButton>
             </div>
           </div>
