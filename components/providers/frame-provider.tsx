@@ -5,11 +5,11 @@ import { monadTestnet } from "wagmi/chains";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { injected, walletConnect } from "wagmi/connectors";
 export const config = createConfig({
-	chains: [monadTestnet],
-	transports: {
-		[monadTestnet.id]: http(),
-	},
-	connectors: [farcasterFrame()],
+  chains: [monadTestnet],
+  transports: {
+    [monadTestnet.id]: http(),
+  },
+  connectors: [farcasterFrame()],
 });
 
 // export const config = createConfig({
@@ -27,16 +27,16 @@ export const config = createConfig({
 const queryClient = new QueryClient();
 
 export default function FrameWalletProvider({
-	children,
+  children,
 }: {
-	children: React.ReactNode;
+  children: React.ReactNode;
 }) {
-	return (
-		<WagmiProvider config={config}>
-			<QueryClientProvider client={queryClient}>
-				<ReactQueryDevtools />
-				{children}
-			</QueryClientProvider>
-		</WagmiProvider>
-	);
+  return (
+    <WagmiProvider config={config}>
+      <QueryClientProvider client={queryClient}>
+        <ReactQueryDevtools />
+        {children}
+      </QueryClientProvider>
+    </WagmiProvider>
+  );
 }

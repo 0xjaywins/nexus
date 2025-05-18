@@ -1,18 +1,18 @@
 export interface Token {
-  name: string
-  symbol: string
-  address: string
-  decimals: number
-  icon?: string
-  color: string
+  name: string;
+  symbol: string;
+  address: string;
+  decimals: number;
+  icon?: string;
+  color: string;
 }
 
 export interface Protocol {
-  name: string
-  address: string
-  stakedToken: string
-  description: string
-  icon?: string
+  name: string;
+  address: string;
+  stakedToken: string;
+  description: string;
+  icon?: string;
 }
 
 export const tokens: Record<string, Token> = {
@@ -72,7 +72,7 @@ export const tokens: Record<string, Token> = {
     decimals: 18,
     color: "#FF073A",
   },
-}
+};
 
 export const protocols: Record<string, Protocol> = {
   aPriori: {
@@ -99,11 +99,11 @@ export const protocols: Record<string, Protocol> = {
     stakedToken: "shMON",
     description: "Governance staking with unbonding period",
   },
-}
+};
 
 export const chainConfig = {
   chainId: 10143,
   chainName: "Monad Testnet",
   rpcUrl: "https://rpc.monad.testnet",
   blockExplorer: "https://explorer.monad.testnet",
-}
+};

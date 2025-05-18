@@ -48,7 +48,7 @@ export function Dashboard() {
 
         {!isWalletConnected ? (
           <div className="space-y-6">
-            <h1 className="text-2xl font-orbitron text-center neon-cyan">
+            <h1 className="text-2xl font-orbitron text-center neon-magenta">
               Welcome to NEXUS
             </h1>
             <p className="text-text-secondary text-center">
