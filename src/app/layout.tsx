@@ -3,7 +3,6 @@ import type { Metadata } from "next";
 import { Inter, Orbitron } from "next/font/google";
 import "./globals.css";
 import { AppStateProvider } from "../../components/navigation/navigation-context";
-import { FrameProvider } from "../../components/providers/farcaster-provider";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -18,17 +17,6 @@ const orbitron = Orbitron({
 export const metadata: Metadata = {
   title: "NEXUS | Web3 DeFi on Monad",
   description: "Stake, swap, and get notifications for the Monad testnet",
-  openGraph: {
-    title: "NEXUS | Web3 DeFi on Monad",
-    description: "Stake, swap, and get notifications for the Monad testnet",
-    images: [
-      {
-        url: "https://vortex-steel.vercel.app/logo.png",
-        width: 1200,
-        height: 630,
-      },
-    ],
-  },
 };
 
 export default function RootLayout({
@@ -41,11 +29,11 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${orbitron.variable} font-sans bg-void dark`}
       >
-        <FrameProvider>
+        <AppStateProvider>
           <div className="min-h-screen bg-void overflow-hidden relative">
             {children}
           </div>
-        </FrameProvider>
+        </AppStateProvider>
       </body>
     </html>
   );
