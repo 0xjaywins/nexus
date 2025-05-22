@@ -1,10 +1,12 @@
 "use client";
+
 import { useState, useEffect } from "react";
 import { Check, ChevronDown } from "lucide-react";
 import { cn } from "../../lib/utils";
 import { Button } from "../../components/ui/button";
 import { TokenIcon } from "../../components/ui/token-icon";
-import { tokens, type Token } from "../../config/tokens";
+import { tokens } from "../../config/config";
+import { Token } from "../../types";
 
 interface SimpleTokenDropdownProps {
   value?: string;
@@ -23,28 +25,53 @@ export function SimpleTokenDropdown({
 }: SimpleTokenDropdownProps) {
   const [open, setOpen] = useState(false);
   const [selectedToken, setSelectedToken] = useState<Token | null>(null);
+  const [searchQuery, setSearchQuery] = useState("");
 
-  // Filter out excluded tokens
-  const availableTokens = Object.values(tokens).filter(
-    (token) => !excludeTokens.includes(token.symbol)
+  // SDK-supported tokens (verify TEST_USDC)
+  const supportedTokenSymbols = [
+    "MON",
+    "USDT",
+    "USDC",
+    "WETH",
+    "WBTC",
+    "SETH",
+    "TEST_USDC",
+  ];
+
+  const allTokens = Object.values(tokens).filter(
+    (token) =>
+      supportedTokenSymbols.includes(token.symbol) &&
+      !excludeTokens.includes(token.symbol)
   );
 
-  // Update selected token when value changes
+  const availableTokens = allTokens.filter(
+    (token) =>
+      token.symbol.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      token.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   useEffect(() => {
     if (value) {
       const token = tokens[value];
-      if (token) setSelectedToken(token);
+      if (token && supportedTokenSymbols.includes(token.symbol)) {
+        setSelectedToken(token);
+      } else {
+        setSelectedToken(null);
+        onValueChange?.("");
+      }
     } else {
       setSelectedToken(null);
     }
-  }, [value]);
+  }, [value, onValueChange]);
 
-  // Handle token selection
   const handleSelect = (tokenSymbol: string) => {
     const token = tokens[tokenSymbol];
-    setSelectedToken(token);
-    onValueChange?.(tokenSymbol);
+    if (token && supportedTokenSymbols.includes(token.symbol)) {
+      setSelectedToken(token);
+      onValueChange?.(tokenSymbol);
+    }
     setOpen(false);
+    setSearchQuery("");
   };
 
   return (
@@ -62,7 +89,10 @@ export function SimpleTokenDropdown({
         {selectedToken ? (
           <div className="flex items-center gap-2">
             <TokenIcon symbol={selectedToken.symbol} size="sm" />
-            <span className="text-xs text-text-secondary">
+            <span
+              className="text-xs text-text-secondary"
+              style={{ color: selectedToken.color }}
+            >
               {selectedToken.symbol}
             </span>
           </div>
@@ -78,6 +108,8 @@ export function SimpleTokenDropdown({
             <input
               className="w-full p-2 bg-void/50 border border-white/10 rounded-md text-white placeholder-text-secondary focus:outline-none focus:ring-1 focus:ring-neon-cyan"
               placeholder="Search token..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
             />
           </div>
           <div className="max-h-60 overflow-auto">
@@ -98,7 +130,10 @@ export function SimpleTokenDropdown({
                       <span className="text-xs text-text-primary">
                         {token.name}
                       </span>
-                      <span className="text-xs text-text-secondary">
+                      <span
+                        className="text-xs text-text-secondary"
+                        style={{ color: token.color }}
+                      >
                         {token.symbol}
                       </span>
                     </div>

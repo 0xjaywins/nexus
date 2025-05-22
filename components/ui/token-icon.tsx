@@ -1,6 +1,5 @@
 "use client";
-import { tokens } from "../../config/tokens";
-import { createSpinningToken } from "../../lib/three-setup";
+import { tokens } from "../../config/config";
 import { cn } from "../../lib/utils";
 
 interface TokenIconProps {

@@ -1,8 +1,21 @@
+// import "./globals.css";
+
+// export default function Layout({ children }: { children: React.ReactNode }) {
+//   return (
+//     <html lang="en">
+//       <body>
+//         <FrameProvider>{children}</FrameProvider>
+//       </body>
+//     </html>
+//   );
+// }
+
 import type React from "react";
 import type { Metadata } from "next";
 import { Inter, Orbitron } from "next/font/google";
 import "./globals.css";
-import { AppStateProvider } from "../../components/navigation/navigation-context";
+// import { AppStateProvider } from "../../components/navigation/navigation-context";
+import { FrameProvider } from "../../components/providers/farcaster-provider";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -29,11 +42,11 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${orbitron.variable} font-sans bg-void dark`}
       >
-        <AppStateProvider>
+        <FrameProvider>
           <div className="min-h-screen bg-void overflow-hidden relative">
             {children}
           </div>
-        </AppStateProvider>
+        </FrameProvider>
       </body>
     </html>
   );

@@ -4,7 +4,7 @@ import { Check, ChevronDown } from "lucide-react";
 import { cn } from "../../lib/utils";
 import { Button } from "../../components/ui/button";
 import { TokenIcon } from "../../components/ui/token-icon";
-import { tokens, type Token } from "../../config/tokens";
+import { tokens, type Token } from "../../config/config";
 
 interface TokenDropdownProps {
   value?: string;

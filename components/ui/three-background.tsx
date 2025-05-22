@@ -1,13 +1,8 @@
 "use client";
 
 import { useRef, useEffect } from "react";
-import dynamic from "next/dynamic";
+import * as THREE from "three";
 import { useTheme } from "next-themes";
-
-// Dynamically import Three.js to avoid SSR issues
-// const ThreeSetup = dynamic(() => import("@/lib/three-setup"), {
-//   ssr: false,
-// });
 
 interface ThreeBackgroundProps {
   type?: "grid" | "particles" | "gradient";
@@ -24,38 +19,32 @@ export function ThreeBackground({
   useEffect(() => {
     if (!canvasRef.current || typeof window === "undefined") return;
 
-    // Import Three.js setup
-    import("../../lib/three-setup").then((ThreeSetup) => {
+    import("../../lib/threeSetup").then((ThreeSetup) => {
       const canvas = canvasRef.current;
       if (!canvas) return;
 
-      // Adjust background color based on theme
       const backgroundColor = "transparent";
 
-      // Adjust color based on theme if not explicitly provided
       const themeAdjustedColor =
         color || (theme === "dark" ? "#00FFEE" : "#0088AA");
 
-      // Create scene
+      const threeColor = new THREE.Color(themeAdjustedColor); // Convert string to THREE.Color
+
       const { scene, cleanup } = ThreeSetup.createScene({
         canvas,
         backgroundColor,
       });
 
-      // Create background element based on type
       let animateElement: () => void;
 
       if (type === "grid") {
-        const { animate } = ThreeSetup.createCyberpunkGrid(
-          scene,
-          Number.parseInt(themeAdjustedColor.replace("#", "0x"))
-        );
+        const { animate } = ThreeSetup.createCyberpunkGrid(scene, threeColor); // Pass THREE.Color
         animateElement = animate;
       } else if (type === "particles") {
         const { animate } = ThreeSetup.createLightParticles(
           scene,
           300,
-          Number.parseInt(themeAdjustedColor.replace("#", "0x")),
+          new THREE.Color(themeAdjustedColor), // Pass THREE.Color
           0.03
         );
         animateElement = animate;
@@ -64,7 +53,6 @@ export function ThreeBackground({
         animateElement = animate;
       }
 
-      // Animation loop
       const animationLoop = () => {
         animateElement();
         requestAnimationFrame(animationLoop);
@@ -72,7 +60,6 @@ export function ThreeBackground({
 
       animationLoop();
 
-      // Cleanup on unmount
       return () => {
         cleanup();
       };
