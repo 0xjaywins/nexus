@@ -21,6 +21,7 @@ import {
   TIP,
   SLIPPAGE,
 } from "../config/config";
+import { write } from "node:fs";
 
 export const UNBONDING_PERIOD_BLOCKS = 1200;
 
@@ -154,9 +155,24 @@ const kintsuAbi = [
   {
     type: "function",
     name: "requestUnlock",
-    inputs: [{ name: "shares", type: "uint128", internalType: "uint128" }],
+    inputs: [{ name: "shares", type: "uint96", internalType: "uint96" }],
     outputs: [],
     stateMutability: "nonpayable",
+  },
+
+  {
+    type: "function",
+    name: "maxRedeem",
+    inputs: [{ name: "owner", type: "address", internalType: "address" }],
+    outputs: [{ name: "maxShares", type: "uint96", internalType: "uint96" }],
+    stateMutability: "view",
+  },
+  {
+    type: "function",
+    name: "balanceOf",
+    inputs: [{ name: "account", type: "address", internalType: "address" }],
+    outputs: [{ name: "", type: "uint96", internalType: "uint96" }],
+    stateMutability: "view",
   },
 ] as const;
 
@@ -334,12 +350,21 @@ export function useUnstake(protocolName: string, amount: string) {
       : kintsuAbi;
 
   const {
-    writeContract: initiateUnstake,
+    writeContract,
     data: txHash,
     error: unstakeError,
     status: unstakeStatus,
   } = useWriteContract();
+
+  const {
+    isLoading: isConfirming,
+    isSuccess,
+    error: awaitingError,
+  } = useWaitForTransactionReceipt({
+    hash: txHash,
+  });
   const { writeContract: claimUnstaked } = useWriteContract();
+  const parsedAmount = parseUnits(amount, token?.decimals || 18);
 
   const { data: canClaim } = useReadContract({
     address: protocol?.address as `0x${string}`,
@@ -356,32 +381,32 @@ export function useUnstake(protocolName: string, amount: string) {
     if (!address || !protocol || !amount) return;
 
     if (protocolName === "Magma") {
-      initiateUnstake({
+      writeContract({
         address: protocol.address as `0x${string}`,
         abi: abi,
         functionName: "withdrawMon",
-        args: [parseUnits(amount, token?.decimals || 18)],
+        args: [parsedAmount],
       });
     } else if (protocolName === "aPriori") {
-      initiateUnstake({
+      writeContract({
         address: protocol.address as `0x${string}`,
         abi: abi,
         functionName: "requestRedeem",
         args: [parseUnits(amount, token?.decimals || 18), address, address],
       });
     } else if (protocolName === "Shmonad") {
-      initiateUnstake({
+      writeContract({
         address: protocol.address as `0x${string}`,
         abi: abi,
         functionName: "unbond",
         args: [BigInt(4), parseUnits(amount, token?.decimals || 18), BigInt(0)],
       });
     } else if (protocolName === "Kintsu") {
-      await initiateUnstake({
+      writeContract({
         address: protocol.address as `0x${string}`,
         abi: abi,
         functionName: "requestUnlock",
-        args: [parseUnits(amount, token?.decimals || 18)],
+        args: [parsedAmount],
       });
     }
   };
@@ -406,6 +431,8 @@ export function useUnstake(protocolName: string, amount: string) {
     txHash,
     unstakeError,
     unstakeStatus,
+    isConfirming,
+    isSuccess,
   };
 }
 

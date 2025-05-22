@@ -295,7 +295,18 @@ export function StakingPage() {
     txHash: unstakeTxHash,
     unstakeError,
     unstakeStatus,
+    isConfirming: isConfirmingUnstake,
+    isSuccess: isSuccessUnstake,
   } = useUnstake(selectedProtocol || "", amount);
+
+  console.log("claimUnstaked", claimUnstaked);
+  console.log("claimUnstaked", claimUnstaked);
+
+  const [isUnstakeSuccessful, setIsUnstakeSuccessful] =
+    useState(isSuccessUnstake);
+  const [unstakeErrorMessage, setUnstakeErrorMessage] = useState<string | null>(
+    null
+  );
 
   const handleProtocolSelect = (protocol: string) => {
     setSelectedProtocol(protocol);
@@ -334,7 +345,7 @@ export function StakingPage() {
 
   const handleUnstake = async () => {
     if (!selectedProtocol || !amount || !address) {
-      setErrorMessage(
+      setUnstakeErrorMessage(
         "Please select a protocol, enter an amount, and connect your wallet."
       );
       return;
@@ -342,11 +353,11 @@ export function StakingPage() {
 
     try {
       await initiateUnstake();
-      setIsSuccessful(true);
+      setIsUnstakeSuccessful(true);
       setAmount("");
-      setErrorMessage(null);
+      setUnstakeErrorMessage(null);
     } catch (error) {
-      setErrorMessage("Unstaking failed. Please try again.");
+      setUnstakeErrorMessage("Unstaking failed. Please try again.");
     }
   };
 
@@ -452,7 +463,9 @@ export function StakingPage() {
                 <span className="text-text-secondary">MON Balance:</span>
               </div>
               <span className="font-medium text-text-primary">
-                {balancesLoading ? "Loading..." : getBalance("MON")}
+                {balancesLoading
+                  ? "Loading..."
+                  : parseFloat(getBalance("MON")).toFixed(2)}
               </span>
             </div>
 
@@ -467,7 +480,9 @@ export function StakingPage() {
                 <span className="font-medium text-text-primary">
                   {balancesLoading
                     ? "Loading..."
-                    : getBalance(getStakedTokenSymbol()!)}
+                    : parseFloat(getBalance(getStakedTokenSymbol()!)).toFixed(
+                        2
+                      )}
                 </span>
               </div>
             )}
@@ -586,7 +601,7 @@ export function StakingPage() {
                 </CyberpunkButton>
               )}
             </div>
-
+            {/* stake starts here */}
             {stakeStatus === "success" && (stakeTxHash || unstakeTxHash) && (
               <div className="p-3 rounded-md border border-neon-green bg-neon-green/10 text-neon-green text-center">
                 <p className="font-medium text-neon-cyan mb-1">
@@ -622,12 +637,60 @@ export function StakingPage() {
                 </a>{" "}
               </div>
             )}
+            {/* stake ends here */}
 
+            {/* unstake starts here */}
+            {unstakeStatus === "success" && (stakeTxHash || unstakeTxHash) && (
+              <div className="p-3 rounded-md border border-neon-green bg-neon-green/10 text-neon-green text-center">
+                <p className="font-medium text-neon-cyan mb-1">
+                  Transaction successful! Tx:{" "}
+                </p>
+                <div className="p-3 truncate line-clamp-1 text-ellipsis rounded-md border border-neon-green bg-neon-green/10 text-neon-green text-center">
+                  <a
+                    href={`https://testnet.monadexplorer.com/tx/${
+                      stakeTxHash || unstakeTxHash
+                    }`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="truncate underline"
+                  >
+                    {stakeTxHash || unstakeTxHash}
+                  </a>{" "}
+                </div>
+              </div>
+            )}
+
+            {unstakeStatus === "error" && (stakeTxHash || unstakeTxHash) && (
+              <div className="p-3 rounded-md border  border-neon-red bg-neon-red/10 text-neon-red text-center">
+                Transaction successful! Tx:{" "}
+                <a
+                  href={`https://testnet.monadexplorer.com/tx/${
+                    stakeTxHash || unstakeTxHash
+                  }`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="truncate hover:underline"
+                >
+                  {stakeTxHash || unstakeTxHash}
+                </a>{" "}
+              </div>
+            )}
+
+            {/* unstake ends here */}
+            {/* stake message starts here */}
             {errorMessage && (
               <div className="p-3 rounded-md border border-neon-red bg-neon-red/10 text-neon-red text-center">
                 {errorMessage}
               </div>
             )}
+            {/* stake message ends here */}
+            {/* unstake message starts here */}
+            {unstakeErrorMessage && (
+              <div className="p-3 rounded-md border border-neon-red bg-neon-red/10 text-neon-red text-center">
+                {unstakeErrorMessage}
+              </div>
+            )}
+            {/* unstake message ends here */}
           </div>
         )}
       </GlassmorphicCard>
