@@ -12,7 +12,7 @@
     "imageUrl": "https://nexus-ten-sigma.vercel.app/og-image.png",
     "buttonTitle": "open in farcaster",
     "splashImageUrl": "https://nexus-ten-sigma.vercel.app/logo.png",
-    "splashBackgroundColor": "rgba(0, 212, 255, 0.05)",
+    "splashBackgroundColor": "#eeccff",
     "webhookUrl": "https://nexus-ten-sigma.vercel.app/api/webhook"
   }
 }
