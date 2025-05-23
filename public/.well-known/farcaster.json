@@ -6,13 +6,13 @@
   },
   "frame": {
     "version": "1",
-    "name": "Nexus Defi MiniApp",
+    "name": "NEXUS | Defi MiniApp",
     "iconUrl": "https://nexus-ten-sigma.vercel.app/logo.png",
     "homeUrl": "https://nexus-ten-sigma.vercel.app",
     "imageUrl": "https://nexus-ten-sigma.vercel.app/og-image.png",
     "buttonTitle": "open in farcaster",
-    "splashImageUrl": "https://nexus-ten-sigma.vercel.app/og-image.png",
-    "splashBackgroundColor": "#eeccff",
+    "splashImageUrl": "https://nexus-ten-sigma.vercel.app/logo.png",
+    "splashBackgroundColor": "rgba(0, 212, 255, 0.05)",
     "webhookUrl": "https://nexus-ten-sigma.vercel.app/api/webhook"
   }
 }
