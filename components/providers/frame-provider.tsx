@@ -3,7 +3,6 @@ import { farcasterFrame } from "@farcaster/frame-wagmi-connector";
 import { createConfig, http, WagmiProvider } from "wagmi";
 import { monadTestnet } from "wagmi/chains";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { injected, walletConnect } from "wagmi/connectors";
 export const config = createConfig({
   chains: [monadTestnet],
   transports: {
