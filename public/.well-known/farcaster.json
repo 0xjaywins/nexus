@@ -9,10 +9,10 @@
     "name": "Example Frame",
     "iconUrl": "https://nexus-ten-sigma.vercel.app/logo.png",
     "homeUrl": "https://nexus-ten-sigma.vercel.app",
-    "imageUrl": "https://nexus-ten-sigma.vercel.app/logo.png",
-    "buttonTitle": "Check this out",
-    "splashImageUrl": "https://nexus-ten-sigma.vercel.app/splash.png",
-    "splashBackgroundColor": "rgba(0, 212, 255, 0.05)",
+    "imageUrl": "https://nexus-ten-sigma.vercel.app/og-image.png",
+    "buttonTitle": "open in farcaster",
+    "splashImageUrl": "https://nexus-ten-sigma.vercel.app/og-image.png",
+    "splashBackgroundColor": "#eeccff",
     "webhookUrl": "https://nexus-ten-sigma.vercel.app/api/webhook"
   }
 }

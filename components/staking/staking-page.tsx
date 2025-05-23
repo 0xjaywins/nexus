@@ -498,8 +498,8 @@ export function StakingPage() {
                   </span>
                 </div>
                 <span className="font-medium text-text-primary">
-                  {canClaim
-                    ? formatUnits(BigInt(canClaim.toString()), 18)
+                  {typeof canClaim === "bigint"
+                    ? formatUnits(canClaim, 18)
                     : "0.00"}
                 </span>
               </div>

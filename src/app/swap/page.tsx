@@ -67,13 +67,15 @@ export default function page() {
 
     try {
       await swap();
-      setSwapMessage({
-        type: "success",
-        message: "Swap successful!",
-        txHash: swapTxHash,
-      });
-      setFromAmount("");
-      setToAmount("");
+      console.log("Swap successful:", swapTxHash);
+
+      // setSwapMessage({
+      //   type: "success",
+      //   message: "Swap successful!",
+      //   txHash: swapTxHash,
+      // });
+      // setFromAmount("");
+      // setToAmount("");
     } catch (err) {
       console.error("Swap failed:", err);
       setSwapMessage({

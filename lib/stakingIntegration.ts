@@ -21,7 +21,6 @@ import {
   TIP,
   SLIPPAGE,
 } from "../config/config";
-import { write } from "node:fs";
 
 export const UNBONDING_PERIOD_BLOCKS = 1200;
 
@@ -50,10 +49,10 @@ const aPrioriAbi = [
     type: "function",
     name: "deposit",
     inputs: [
-      { name: "assets", type: "uint256", internalType: "uint256" },
+      { name: "assets", type: "uint96", internalType: "uint96" },
       { name: "receiver", type: "address", internalType: "address" },
     ],
-    outputs: [{ name: "shares", type: "uint256", internalType: "uint256" }],
+    outputs: [{ name: "shares", type: "uint96", internalType: "uint96" }],
     stateMutability: "payable",
   },
   {
@@ -248,6 +247,41 @@ export function useStake(protocolName: string, amount: string) {
     hash: txHash,
   });
 
+  const [gasParams, setGasParams] = useState<{
+    gasLimit: bigint;
+    maxFeePerGas: bigint;
+    maxPriorityFeePerGas: bigint;
+  } | null>(null);
+
+  useEffect(() => {
+    const fetchGasParams = async () => {
+      try {
+        const publicClient = getPublicClient(config);
+        if (!publicClient) throw new Error("Public client not available");
+
+        const [baseFeePerGas, maxPriorityFeePerGas] = await Promise.all([
+          publicClient
+            .getBlock()
+            .then((block) => block.baseFeePerGas || BigInt(0)),
+          publicClient.estimateMaxPriorityFeePerGas(),
+        ]);
+
+        const maxFeePerGas = baseFeePerGas + maxPriorityFeePerGas;
+        const gasLimit = BigInt(protocolName === "MON" ? 250000 : 200000); // Adjust for native vs token swaps
+
+        setGasParams({
+          gasLimit,
+          maxFeePerGas,
+          maxPriorityFeePerGas,
+        });
+      } catch (error) {
+        console.error("Error fetching gas parameters:", error);
+        // setError("Failed to fetch gas parameters");
+      }
+    };
+
+    fetchGasParams();
+  }, [protocolName]);
   const parsedAmount = parseUnits(amount, token?.decimals || 18);
 
   const needsApproval =
@@ -307,6 +341,9 @@ export function useStake(protocolName: string, amount: string) {
           abi: abi,
           functionName: "deposit",
           args: [parsedAmount, address],
+          gas: gasParams?.gasLimit,
+          maxFeePerGas: gasParams?.maxFeePerGas,
+          maxPriorityFeePerGas: gasParams?.maxPriorityFeePerGas,
         });
       } else if (protocolName === "Shmonad") {
         writeContract({
@@ -477,6 +514,14 @@ export function useSwap(fromToken: string, toToken: string, amount: string) {
     status: swapStatus,
   } = useWriteContract();
 
+  const {
+    isLoading: isConfirming,
+    isSuccess,
+    error: awaitingError,
+    isPending,
+  } = useWaitForTransactionReceipt({
+    hash: txHash,
+  });
   const needsApproval =
     allowance && amount && fromTokenInfo?.address !== ZERO_ADDRESS
       ? BigInt(allowance.toString()) <
@@ -582,7 +627,7 @@ export function useSwap(fromToken: string, toToken: string, amount: string) {
 
       // Approve tokens if necessary
       if (needsApproval && fromTokenInfo.address !== ZERO_ADDRESS) {
-        await approve({
+        approve({
           address: fromTokenInfo.address as `0x${string}`,
           abi: erc20Abi,
           functionName: "approve",
@@ -594,10 +639,10 @@ export function useSwap(fromToken: string, toToken: string, amount: string) {
       }
 
       // Execute swap
-      await swap({
+      swap({
         address: AMBIENT_CONTRACT as `0x${string}`,
         abi: AMBIENT_ABI,
-        functionName: "swap",
+        functionName: "userCmd",
         args: [
           fromTokenInfo.address as `0x${string}`,
           toTokenInfo.address as `0x${string}`,
@@ -617,6 +662,8 @@ export function useSwap(fromToken: string, toToken: string, amount: string) {
       });
     } catch (error) {
       console.error("Swap error:", error);
+      console.log("Swap error:", error);
+      setError("Swap failed: " + (error instanceof Error ? error.message : ""));
       throw new Error(
         "Swap failed: " +
           (error instanceof Error ? error.message : "Unknown error")

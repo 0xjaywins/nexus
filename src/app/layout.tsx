@@ -29,7 +29,7 @@ const orbitron = Orbitron({
 
 export const metadata: Metadata = {
   title: "NEXUS | Web3 DeFi on Monad",
-  description: "Stake, swap, and get notifications for the Monad testnet",
+  description: "Swap, Stake, and Stay updated effortlessly on Monad Testnet",
 };
 
 export default function RootLayout({
