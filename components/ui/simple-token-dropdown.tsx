@@ -5,8 +5,8 @@ import { Check, ChevronDown } from "lucide-react";
 import { cn } from "../../lib/utils";
 import { Button } from "../../components/ui/button";
 import { TokenIcon } from "../../components/ui/token-icon";
-import { tokens } from "../../config/config";
 import { Token } from "../../types";
+import { tokens } from "../../config/config";
 
 interface SimpleTokenDropdownProps {
   value?: string;

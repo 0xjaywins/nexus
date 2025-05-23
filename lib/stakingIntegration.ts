@@ -7,7 +7,6 @@ import {
 import { parseUnits, formatUnits } from "viem";
 import { useEffect, useState, useCallback } from "react";
 import { getPublicClient } from "@wagmi/core";
-import { config } from "./wagmi-config";
 import { monadTestnet } from "./chains";
 import {
   tokens,
@@ -21,6 +20,7 @@ import {
   TIP,
   SLIPPAGE,
 } from "../config/config";
+import { config } from "./wagmi-config";
 
 export const UNBONDING_PERIOD_BLOCKS = 1200;
 
