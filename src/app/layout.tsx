@@ -3,7 +3,6 @@ import type { Metadata } from "next";
 import { Inter, Orbitron } from "next/font/google";
 import "./globals.css";
 import { FrameProvider } from "../../components/providers/farcaster-provider";
-import farcasterFrame from "@farcaster/frame-wagmi-connector";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -31,6 +30,21 @@ export const metadata: Metadata = {
   },
 };
 
+const farcasterFrame = {
+  version: "next",
+  imageUrl: "https://nexus-ten-sigma.vercel.app/og-image.png",
+  button: {
+    title: "Launch NEXU",
+    action: {
+      type: "launch_frame",
+      name: "NEXUS",
+      url: "https://nexus-ten-sigma.vercel.app/",
+      splashImageUrl: "https://nexus-ten-sigma.vercel.app/og-image.png",
+      splashBackgroundColor: "#f7f7f7",
+    },
+  },
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -45,7 +59,7 @@ export default function RootLayout({
         className={`${inter.variable} ${orbitron.variable} font-sans bg-void dark`}
       >
         <FrameProvider>
-          <div className="min-h-screen bg-[url('/og-image.png')] bg-cover bg-center bg-no-repeat overflow-hidden relative">
+          <div className="min-h-screen bg-void overflow-hidden relative">
             {children}
           </div>
         </FrameProvider>

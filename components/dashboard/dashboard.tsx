@@ -21,7 +21,7 @@ const NexusLogo = dynamic(() => import("../nexus-logo"), {
 
 export function Dashboard() {
   const { isWalletConnected, setWalletConnected } = useAppState();
-  const { isConnected } = useAccount();
+  const { isConnected, address } = useAccount();
   const { connectAsync, isPending: isLoading, error } = useConnect();
   const {
     balances,
